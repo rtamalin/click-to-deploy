@@ -522,7 +522,7 @@ crdwebhook:
   type: ClusterIP
 
 awsbilling:
-  enabled: false
+  enabled: true
   accountNumber: ""
   roleName: ""
   serviceAccount: csp

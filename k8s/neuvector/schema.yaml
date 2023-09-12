@@ -1,0 +1,113 @@
+x-google-marketplace:
+  schemaVersion: v2
+
+  applicationApiVersion: v1beta1
+
+  publishedVersion: "$TAG"
+  publishedVersionMetadata:
+    releaseNote: >-
+      Initial marketplace release.
+    releaseTypes:
+      - Feature
+    recommended: false
+
+  images:
+    #controller:
+    '':
+      properties:
+        registry:
+          type: REGISTRY
+          default: $REGISTRY
+        tag:
+          type: TAG
+        controller.image.repository:
+          type: REPO_WITHOUT_REGISTRY
+
+    enforcer:
+      properties:
+        enforcer.image.repository:
+          type: REPO_WITHOUT_REGISTRY
+        controller.image.tag:
+          type: TAG
+
+    manager:
+      properties:
+        manager.image.repository:
+          type: REPO_WITHOUT_REGISTRY
+        manager.image.tag:
+          type: TAG
+
+    registry-adapter:
+      properties:
+        cve.adapter.image.repository:
+          type: REPO_WITHOUT_REGISTRY
+#       cve.adapter.image.tag:
+#         type: TAG
+
+    updater:
+      properties:
+        cve.updater.image.repository:
+          type: REPO_WITHOUT_REGISTRY
+#       cve.updater.image.tag:
+#         type: TAG
+
+    scanner:
+      properties:
+        cve.scanner.image.repository:
+          type: REPO_WITHOUT_REGISTRY
+#       cve.scanner.image.tag:
+#         type: TAG
+
+    neuvector-google-billing-container:
+      properties:
+        awsbilling.image.repository:
+          type: REPO_WITHOUT_REGISTRY
+        awsbilling.image.tag:
+          type: TAG
+
+    ubbagent:
+      properties:
+        ubbagent.image.repository:
+          type: REPO_WITH_REGISTRY
+        ubbagent.image.tag:
+          type: TAG
+
+# clusterConstraints:
+#   resources:
+#     - replicas: 3
+#       requests:
+#         cpu: 2000m
+#         memory: 8192Mi
+#   istio:
+#     type: OPTIONAL
+
+  deployerServiceAccount:
+    description: >
+      Creates app resources, including required NeuVector CRDs.
+    roles:
+    - type: ClusterRole
+      rulesType: CUSTOM
+      rules:
+      - apiGroups: ['apiextensions.k8s.io']
+        resources: ['customresourcedefinitions']
+        verbs: ['*']
+
+properties:
+  name:
+    type: string
+    x-google-marketplace:
+      type: NAME
+  namespace:
+    type: string
+    default: neuvector
+    x-google-marketplace:
+      type: NAMESPACE
+  ubbagent.reportingSecretName:
+    type: string
+    x-google-marketplace:
+      type: REPORTING_SECRET
+
+required:
+- name
+- namespace
+- ubbagent.reportingSecretName
