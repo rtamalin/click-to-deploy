@@ -1,0 +1,83 @@
+{{- if .Values.awsbilling.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neuvector-csp-pod
+  namespace: {{ .Release.Namespace }}
+  labels:
+    chart: {{ template "neuvector.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- with .Values.awsbilling.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  selector:
+    matchLabels:
+      app: neuvector-csp-pod
+  template:
+    metadata:
+      labels:
+        app: neuvector-csp-pod
+        release: {{ .Release.Name }}
+    spec:
+      {{- if .Values.awsbilling.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.awsbilling.imagePullSecrets }}
+      {{- end }}
+      volumes:
+      # needed by GCMP billig agent
+      - name: ubbagent-config
+        configMap:
+          name: ubbagent-config
+      containers:
+      # GCMP billingagent container
+      - name: ubbagent
+        image: "{{ .Values.ubbagent.image.repository }}:{{ .Values.ubbagent.image.tag }}"
+        imagePullPolicy: "{{ .Values.ubbagent.image.imagePullPoliicy }}"
+        env:
+          - name: AGENT_CONFIG_FILE
+            value: "/etc/ubbagent/config.yaml"
+          - name: AGENT_LOCAL_PORT
+            value: "4567"
+          - name: AGENT_ENCODED_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ default (print (.Release.Name | trunc 63 | trimSuffix "-") "-license") .Values.ubbagent.reportingSecretName }}
+                key: reporting-key
+          - name: AGENT_CONSUMER_ID
+            valueFrom:
+              secretKeyRef:
+                name: {{ default (print (.Release.Name | trunc 63 | trimSuffix "-") "-license") .Values.ubbagent.reportingSecretName }}
+                key: consumer-id
+        volumeMounts:
+          - name: ubbagent-config
+            mountPath: /etc/ubbagent
+        resources:
+          limits:
+            cpu: 200m
+            memory: 100Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+        securityContext:
+          runAsUser: 1001
+          runAsNonRoot: true
+      - env:
+        - name: ADAPTER_NAMESPACE
+          value: {{ .Release.Namespace }}
+        - name: USAGE_CRD_PLURAL
+          value: "cspadapterusagerecords"
+        - name: USAGE_RESOURCE
+          value: "neuvector-usage"
+        - name: USAGE_API_VERSION
+          value: "v1"
+        - name: USAGE_API_GROUP
+          value: "susecloud.net"
+        image: "{{ .Values.registry }}/{{ .Values.awsbilling.image.repository }}:{{ .Values.awsbilling.image.tag }}"
+        name: neuvector-csp-pod
+        imagePullPolicy: "{{ .Values.awsbilling.image.imagePullPoliicy }}"
+      serviceAccountName: {{ .Values.awsbilling.serviceAccount }}
+      serviceAccount: {{ .Values.awsbilling.serviceAccount }}
+{{- end }}
