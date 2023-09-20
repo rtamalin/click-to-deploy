@@ -46,7 +46,7 @@ secret, replacing `Admin1234` with your actual password, and the `neuvector`
 with the namespace created previously:
 
 ```shell
-% envsubst PASSWORD=Admin1234 <userinitcfg.yaml.template >/tmp/userinitcfg.yaml
+% env PASSWORD=Admin1234 envsubst <userinitcfg.yaml.template >/tmp/userinitcfg.yaml
 % kubectl create secret generic neuvector-init \\
     --from-file=/tmp/userinitcfg.yaml -n neuvector
 ```

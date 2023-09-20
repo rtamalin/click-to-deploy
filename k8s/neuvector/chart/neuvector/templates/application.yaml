@@ -42,22 +42,32 @@ spec:
 
       Get NeuVector admin user credentials from application page in console or you can print it by running below commands:
       ```shell
-      # Get admin user credentials of web console
+      # Get admin user credentials for web interface
       NEUVECTOR_ADMIN_PASSWORD=$(kubectl get secret --namespace \
         {{ .Release.Namespace }} {{ .Release.Name }}-neuvector-secret \
         -o jsonpath="{.data.console-password}" | base64 --decode)
+      NEUVECTOR_ADMIN_USERNAME=$(kubectl get secret \
+        --namespace {{ .Release.namespace }} neuvector-init \
+        -o jsonpath='{.data.userinitcfg\.yaml}' | base64 --decode | \
+        python -c 'import sys, yaml; data=yaml.safe_load(sys.stdin);
+                   print(data["users"][0]["Fullname"])')
+      NEUVECTOR_ADMIN_PASSWORD=$(kubectl get secret \
+        --namespace {{ .Release.namespace }} neuvector-init \
+        -o jsonpath='{.data.userinitcfg\.yaml}' | base64 --decode | \
+        python -c 'import sys, yaml; data=yaml.safe_load(sys.stdin);
+                   print(data["users"][0]["Password"])')
 
-      echo "username: admin"
+      echo "username: ${NEUVECTOR_ADMIN_USERNAME}"
       echo "password: ${NEUVECTOR_ADMIN_PASSWORD}"
       ```
 
       Forward NeuVector service web console port to your machine.
       ```shell
       kubectl port-forward svc/{{ .Release.Name }}-neuvector \
-        --namespace {{ .Release.Namespace }} 8161
+        --namespace {{ .Release.Namespace }} 8443
       ```
 
-      Then visit [http://localhost:8161/admin](http://localhost:8161/admin) on your web browser and login with `admin` user credentials.
+      Then visit [http://localhost:8443/admin](http://localhost:8443/admin) on your web browser and login with `admin` user credentials.
 
   info:
   - name: neuvector
