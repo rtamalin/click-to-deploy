@@ -60,9 +60,9 @@ x-google-marketplace:
 
     neuvector-google-billing-container:
       properties:
-        awsbilling.image.repository:
+        global.aws.image.repository:
           type: REPO_WITHOUT_REGISTRY
-        awsbilling.image.tag:
+        global.aws.image.tag:
           type: TAG
 
     ubbagent:

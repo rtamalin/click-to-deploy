@@ -56,7 +56,7 @@ global: # required for rancher authentication (https://<Rancher_URL>/)
     annotations: {}
     imagePullSecrets:
     image:
-      repository: suse-gce-test/neuvector-google-billing-container
+      repository: neuvector-google-billing-container
       tag: latest
       imagePullPolicy: IfNotPresent
 
