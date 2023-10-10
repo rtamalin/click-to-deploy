@@ -87,6 +87,7 @@ x-google-marketplace:
       privileges to be able to create the NeuVector app's resources,
       including the CspAdapterUsageRecord CRD and it's associated
       neuvector-usage resource.
+    type: string
     roles:
     - type: ClusterRole
       rulesType: CUSTOM
@@ -145,6 +146,7 @@ x-google-marketplace:
         - "create"
         - "update"
         - "delete"
+        - "patch"
 
       - apiGroups: ["discovery.k8s.io"]
         resources:
@@ -175,6 +177,7 @@ x-google-marketplace:
         - "list"
         - "watch"
         - "create"
+        - "patch"
 
       - apiGroups: ["neuvector.com"]
         resources:
@@ -195,6 +198,7 @@ x-google-marketplace:
         - "create"
         - "update"
         - "delete"
+        - "patch"
 
       - apiGroups: ["apps"]
         resources:
