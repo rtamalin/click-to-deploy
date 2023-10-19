@@ -6,10 +6,30 @@ editing.
 
 # Overview
 
-Sample Application
-
-For more information on Sample Application, see the
-[Sample Application website](https://example.com/).
+NeuVector Prime is a 100% open-source Kubernetes container security
+platform built for enterprise-grade environments. Supported by a
+strong community of users, NeuVector Prime provides full lifecycle
+container security from build, pipeline, registry to
+production. NeuVector Prime enables you to run Kubernetes SECURELY
+everywhere - from cloud to on-prem or at the edge. In addition to
+end-to-end vulnerability and compliance scanning, NeuVector provides
+unique runtime protection which combines a layer7 container firewall
+with workload process/file protections. The network protection of
+NeuVector uses deep packet inspection (DPI) to monitor and block
+network threats, segmentation violations, and unauthorized ingress or
+egress connections. This technology enables data leak protection (DLP)
+rules, web application firewall (WAF) rules, api security validation,
+and is compatible with service meshes such as istio and AWS App
+Mesh. NeuVector is a cloud-native solution which deploys easily on EKS
+to protect workloads and hosts from vulnerability exploits and
+zero-day attacks. The deployment is a set of containers (manager,
+controller, enforcer, scanner) which can be managed through the
+console or rest API. This deployment configures a GKS load balancer
+service to expose the manager console. For more information on
+NeuVector see the project documentation at
+https://open-docs.neuvector.com/. Ignore steps 1 and 2 of the Launch
+Instructions and go directly to the Usage Instructions once you
+subscribe to this product.
 
 ## About Google Click to Deploy
 
@@ -22,14 +42,14 @@ available in Google Cloud Marketplace.
 
 Get up and running with a few clicks! Install this Sample Application to a
 Google Kubernetes Engine cluster using Google Cloud Marketplace. Follow the
-[on-screen instructions](https://console.cloud.google.com/marketplace/details/google/sample-app).
+[on-screen instructions](https://console.cloud.google.com/marketplace/details/google/neuvector-prime).
 
 ## Command line instructions
 
 You can use [Google Cloud Shell](https://cloud.google.com/shell/) or a local
 workstation to follow the steps below.
 
-[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/GoogleCloudPlatform/click-to-deploy&cloudshell_open_in_editor=README.md&cloudshell_working_dir=k8s/sample-app)
+[![Open in Cloud Shell](http://gstatic.com/cloudssh/images/open-btn.svg)](https://console.cloud.google.com/cloudshell/editor?cloudshell_git_repo=https://github.com/rtamalin/click-to-deploy&cloudshell_git_branch=doc-update&cloudshell_open_in_editor=README.md&cloudshell_working_dir=k8s/neuvector)
 
 ### Prerequisites
 
